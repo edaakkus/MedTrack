@@ -1,0 +1,777 @@
+{
+  "info": {
+    "name": "MedTrack API",
+    "description": "MedTrack API Collection - Tüm endpoint'ler için test istekleri",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "GET - Get All Members",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/members",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Member By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/members/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create Member",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Test Member\",\"email\":\"test@medtrack.com\",\"password\":\"test123\",\"enabled\":true}"
+            },
+            "url": "http://localhost:9090/members",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Member",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Updated Member\",\"email\":\"test@medtrack.com\",\"password\":\"test123\",\"enabled\":true}"
+            },
+            "url": "http://localhost:9090/members/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update Member Name",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "New Member Name" },
+            "url": "http://localhost:9090/members/1/name",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Member",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/members/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Doctors",
+      "item": [
+        {
+          "name": "GET - Get All Doctors",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/doctors",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Doctor By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/doctors/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create Doctor",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Dr. Ahmet Yılmaz\",\"licenseNumber\":\"DR12345\",\"specialization\":\"Kardiyoloji\"}"
+            },
+            "url": "http://localhost:9090/doctors",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Doctor",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Dr. Ahmet Yılmaz Updated\",\"licenseNumber\":\"DR12345\",\"specialization\":\"Kardiyoloji\"}"
+            },
+            "url": "http://localhost:9090/doctors/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update Doctor Name",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "Dr. New Name" },
+            "url": "http://localhost:9090/doctors/1/name",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Doctor",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/doctors/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Medications",
+      "item": [
+        {
+          "name": "GET - Get All Medications",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/medications",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Medication By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/medications/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create Medication",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Aspirin\",\"description\":\"Ağrı kesici\",\"dosage\":\"500mg\"}"
+            },
+            "url": "http://localhost:9090/medications",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Medication",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Aspirin Updated\",\"description\":\"Ağrı kesici\",\"dosage\":\"500mg\"}"
+            },
+            "url": "http://localhost:9090/medications/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update Medication Name",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "New Medication Name" },
+            "url": "http://localhost:9090/medications/1/name",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Medication",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/medications/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prescriptions",
+      "item": [
+        {
+          "name": "GET - Get All Prescriptions",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/prescriptions",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Prescription By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/prescriptions/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create Prescription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"issueDate\":\"2024-01-15\",\"notes\":\"Günde 2 kez alınacak\",\"member\":{\"id\":1},\"doctor\":{\"id\":1}}"
+            },
+            "url": "http://localhost:9090/prescriptions",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Prescription",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"issueDate\":\"2024-01-15\",\"notes\":\"Güncellenmiş notlar\",\"member\":{\"id\":1},\"doctor\":{\"id\":1}}"
+            },
+            "url": "http://localhost:9090/prescriptions/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update Prescription Notes",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "Updated notes" },
+            "url": "http://localhost:9090/prescriptions/1/notes",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Prescription",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/prescriptions/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "GET - Get All Roles",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/roles",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Role By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/roles/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create Role",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"NURSE\"}"
+            },
+            "url": "http://localhost:9090/roles",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Role",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"NURSE_UPDATED\"}"
+            },
+            "url": "http://localhost:9090/roles/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update Role Name",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "NEW_ROLE" },
+            "url": "http://localhost:9090/roles/1/name",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Role",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/roles/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Records",
+      "item": [
+        {
+          "name": "GET - Get All Records",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/records",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Record By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/records/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Records By Member",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/records/member/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get Last 7 Days Records",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/records/member/1/last7",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create Record",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"weight\":70.5,\"pulse\":75,\"waterIntake\":8,\"sleepHours\":7,\"member\":{\"id\":1}}"
+            },
+            "url": "http://localhost:9090/records",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update Record",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"weight\":71.0,\"pulse\":76,\"waterIntake\":9,\"sleepHours\":8,\"member\":{\"id\":1}}"
+            },
+            "url": "http://localhost:9090/records/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update Record Weight",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "72.5" },
+            "url": "http://localhost:9090/records/1/weight",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Seed Last 7 Days",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:9090/records/seed/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete Record",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/records/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET - Get All Users",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/users",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET - Get User By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/users/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST - Create User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Test User\",\"email\":\"testuser@example.com\",\"password\":\"test123\"}"
+            },
+            "url": "http://localhost:9090/users",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PUT - Update User",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"Updated User\",\"email\":\"testuser@example.com\",\"password\":\"test123\"}"
+            },
+            "url": "http://localhost:9090/users/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH - Update User Name",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "body": { "mode": "raw", "raw": "New User Name" },
+            "url": "http://localhost:9090/users/1/name",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE - Delete User",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:9090/users/1",
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin@medtrack.com" },
+                { "key": "password", "value": "admin123" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Actuator",
+      "item": [
+        {
+          "name": "GET - Health",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/actuator/health"
+          }
+        },
+        {
+          "name": "GET - Info",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:9090/actuator/info"
+          }
+        }
+      ]
+    }
+  ]
+}
