@@ -158,6 +158,12 @@ Kaynak kodlar ilgili katmanlara uygun klasörler altında düzenlenmiştir:
 
 ---
 
+## Contributors
+- Dilay Deveci
+- Eda Akkuş
+
+---
+
 ## ✅ Sonuç
 
 MedTrack projesi, proje önerisinde ve ders yönergesinde belirtilen **tüm gereksinimleri eksiksiz olarak karşılayacak şekilde** tasarlanmış ve geliştirilmiştir. Proje, yazılım mimarisi, güvenlik, veri tabanı tasarımı ve RESTful servis geliştirme konularında kapsamlı bir örnek sunmaktadır.
