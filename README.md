@@ -6,39 +6,41 @@
 [![Spring Security](https://img.shields.io/badge/Spring%20Security-6-red.svg?logo=springsecurity)](https://spring.io/projects/spring-security)
 [![Docker](https://img.shields.io/badge/Docker-Supported-2496ED.svg?logo=docker)](https://www.docker.com/)
 
-MedTrack is an enterprise-grade personal health management platform and RESTful service built with **Spring Boot** and **Java 21**. It enables patients, doctors, and healthcare administrators to securely record, track, and visualize vital physiological metrics, medical records, and prescriptions with fine-grained role-based security.
+MedTrack is a health tracking platform and RESTful service built with **Spring Boot 3** and **Java 21**. It allows patients, doctors, and administrators to record, review, and visualize vital metrics, health records, and prescriptions, with role-based access rules enforced by Spring Security.
 
 ---
 
 ## 📸 Preview
 
 ### Interactive Health Metric Dashboard
-Patients and doctors can track weekly vitals (weight, pulse, sleep, hydration) with dynamic Chart.js visualizations:
+Weekly vitals (weight, pulse, sleep, hydration) are visualized with Chart.js. The chart below is rendered from generated sample data:
 <p align="center">
   <img src="medtrack/docs/dashboard-preview.png" alt="MedTrack Dashboard Preview" width="850"/>
 </p>
 
 ### Database EER Diagram
-Engineered using MySQL Workbench reverse engineering with explicit entity relationship mappings:
+Generated with MySQL Workbench (reverse engineering) from the JPA-managed schema:
 <p align="center">
   <img src="medtrack/docs/medtrack-eer-diagram.png" alt="MedTrack EER Diagram" width="850"/>
 </p>
+
+> **Note:** The `users` table is a standalone CRUD entity exposed under `/users` and is not part of authentication. Login is resolved through the `members` and `roles` tables.
 
 ---
 
 ## ✨ Key Features
 
-- **Role-Based Access Control (RBAC):** Hierarchical permissions tailored for `ADMIN`, `DOCTOR`, and `PATIENT` roles, secured by Spring Security and BCrypt password encryption.
-- **Interactive Vitals Dashboard:** Web UI powered by Thymeleaf and Chart.js, rendering dynamic 7-day health trend analytics.
-- **Explicit JPA / Hibernate Architecture:** Designed with native `EntityManager` and `TypedQuery` implementations (without relying on Spring Data repository magic) to ensure granular control over SQL queries, transaction lifecycles, and fetch strategies.
-- **Relational Domain Model:** Implements all core JPA relationship types:
+- **Role-Based Access Control:** `ADMIN`, `DOCTOR`, and `PATIENT` roles with per-endpoint, per-HTTP-method rules defined in `SecurityConfig`. HTTP Basic authentication with BCrypt-hashed passwords.
+- **Vitals Dashboard:** Thymeleaf-rendered dashboard with Chart.js charts of the last 7 days of health records.
+- **Explicit Persistence Layer:** Data access is implemented with `EntityManager` and `TypedQuery` rather than Spring Data repositories, giving direct control over queries, transaction boundaries, and fetch strategies.
+- **Relational Domain Model covering core JPA relationship types:**
   - `@OneToOne` (Prescription ↔ Member)
   - `@ManyToOne` (Prescription → Doctor, HealthRecord → Member)
   - `@OneToMany` (Member → HealthRecords)
   - `@ManyToMany` (Prescription ↔ Medication, Member ↔ Role)
-- **Centralized Exception Handling:** `@ControllerAdvice` providing standardized JSON error schemas across all REST controllers.
-- **Production Observability:** Integrated Spring Boot Actuator monitoring (`/actuator/health`, `/actuator/info`).
-- **Containerized Deployment:** Multi-stage `Dockerfile` and `docker-compose.yml` for instant orchestration with MySQL 8.4.
+- **Centralized Exception Handling:** `@ControllerAdvice` for consistent JSON error responses.
+- **Health & Info Endpoints:** Spring Boot Actuator (`/actuator/health`, `/actuator/info`).
+- **Containerized Setup:** Multi-stage `Dockerfile` (Maven build → Temurin 21 JRE runtime) and `docker-compose.yml` that starts the application together with MySQL 8.4.
 
 ---
 
@@ -48,37 +50,61 @@ Engineered using MySQL Workbench reverse engineering with explicit entity relati
 |---|---|
 | **Language & Runtime** | Java 21 (Eclipse Temurin) |
 | **Framework** | Spring Boot 3.5.7 (Web, Security, Validation, Actuator, Thymeleaf, DevTools) |
-| **Persistence & ORM** | Hibernate ORM 6.6, JPA 3.1, HikariCP, JDBC |
-| **Database** | MySQL 8.0+ / MySQL 8.4 (Docker) |
-| **Frontend / UI** | Thymeleaf, HTML5/CSS3, Chart.js |
-| **DevOps & Containers** | Docker, Docker Compose |
-| **Testing & Tooling** | JUnit 5, Spring Security Test, Postman |
+| **Persistence** | Hibernate ORM, JPA 3.1, HikariCP |
+| **Database** | MySQL 8.0+ (MySQL 8.4 in Docker) |
+| **Frontend** | Thymeleaf, HTML/CSS, Chart.js |
+| **DevOps** | Docker, Docker Compose |
+| **Testing & Tooling** | Spring Boot Test, Spring Security Test, Postman collection |
 
 ---
 
 ## 🔐 Security & Access Control
 
-Endpoints are secured using HTTP Basic Authentication with role-based method security:
+Access rules are defined per resource and HTTP method:
 
-| Resource | Endpoint | GET | POST | PUT / PATCH | DELETE | Allowed Roles |
-|---|---|:---:|:---:|:---:|:---:|---|
-| **Health Records** | `/records/**` | ✅ | ✅ | ✅ | ✅ (Admin/Doctor) | `ADMIN`, `DOCTOR`, `PATIENT` |
-| **Members** | `/members/**` | ✅ | ✅ (Admin/Doctor) | ✅ (Admin/Doctor) | ✅ (Admin) | `ADMIN`, `DOCTOR`, `PATIENT` |
-| **Doctors** | `/doctors/**` | ✅ | ✅ (Admin) | ✅ (Admin) | ✅ (Admin) | `ADMIN`, `DOCTOR`, `PATIENT` |
-| **Prescriptions** | `/prescriptions/**` | ✅ | ✅ (Admin/Doctor) | ✅ (Admin/Doctor) | ✅ (Admin) | `ADMIN`, `DOCTOR`, `PATIENT` |
-| **Medications** | `/medications/**` | ✅ | ✅ (Admin/Doctor) | ✅ (Admin/Doctor) | ✅ (Admin) | `ADMIN`, `DOCTOR`, `PATIENT` |
-| **Roles / Users** | `/roles/**`, `/users/**`| ✅ | ✅ (Admin) | ✅ (Admin) | ✅ (Admin) | `ADMIN` |
-| **Dashboard** | `/dashboard/{id}` | ✅ | — | — | — | All authenticated users |
-| **Health Check** | `/actuator/health` | ✅ | — | — | — | Public (`permitAll`) |
+| Resource | GET | POST / PUT / PATCH | DELETE |
+|---|:---:|:---:|:---:|
+| `/members/**` | All roles | ADMIN, DOCTOR | ADMIN |
+| `/doctors/**` | All roles | ADMIN | ADMIN |
+| `/medications/**` | All roles | ADMIN, DOCTOR | ADMIN |
+| `/prescriptions/**` | All roles | ADMIN, DOCTOR | ADMIN |
+| `/records/**` | All roles | All roles | ADMIN, DOCTOR |
+| `/roles/**`, `/users/**` | All roles | ADMIN | ADMIN |
+| `/dashboard/{id}` | All roles | — | — |
+| `/admin/**` | ADMIN | — | — |
+| `/patient/**` | ADMIN, PATIENT | — | — |
+| `/actuator/health`, `/actuator/info` | Public | — | — |
 
-### Default Test Credentials (Pre-seeded)
+A detailed per-endpoint matrix is available in [`medtrack/docs/SECURITY_ENDPOINTS.md`](medtrack/docs/SECURITY_ENDPOINTS.md).
 
-| Username / Email | Password | Role(s) | Description |
-|---|---|---|---|
-| `user` | `password` | `ADMIN`, `DOCTOR`, `PATIENT` | Master testing user |
-| `admin@medtrack.com` | `admin123` | `ADMIN` | System administrator |
-| `doctor@medtrack.com` | `doctor123` | `DOCTOR` | Healthcare specialist |
-| `patient@medtrack.com` | `patient123` | `PATIENT` | Registered patient |
+### Seeded Development Accounts
+
+| Username / Email | Password | Role(s) |
+|---|---|---|
+| `user` | `password` | `ADMIN`, `DOCTOR`, `PATIENT` |
+| `admin@medtrack.com` | `admin123` | `ADMIN` |
+| `doctor@medtrack.com` | `doctor123` | `DOCTOR` |
+| `patient@medtrack.com` | `patient123` | `PATIENT` |
+
+> *These accounts and the database credentials in `docker-compose.yml` are intended for local development only.*
+
+---
+
+## 🧭 Current Scope & Roadmap
+
+The current release focuses on the domain model, the REST API, and endpoint-level role authorization. The following items are planned next:
+
+| Area | Current behavior | Planned improvement |
+|---|---|---|
+| **Data-level authorization** | Authorization is role-based; any authenticated role with read access can query all members, health records, and prescriptions, and open any member's dashboard. PATIENT can create and update health records for any member. | Ownership checks so that patients only access their own data. |
+| **API response shape** | Entities are serialized directly; `GET /members` and `GET /users` include the password field (BCrypt hash). | DTO layer, with passwords excluded from all responses. |
+| **Authentication** | HTTP Basic, CSRF disabled (suited to API clients and testing). | Token-based authentication (JWT) and CSRF handling for browser sessions. |
+| **Configuration** | `ddl-auto=update`; `/actuator/health` shows component details publicly; development credentials in `docker-compose.yml`. | Profile-based configuration, schema migrations (Flyway/Liquibase), externalized secrets. |
+| **Data model** | Prescription ↔ Member is `@OneToOne` (unique foreign key), i.e. one prescription per member. | Many prescriptions per member (`@ManyToOne`). |
+| **API documentation** | Postman collection and Markdown docs under `docs/`. | OpenAPI / Swagger UI integration. |
+| **Automation** | Basic default Spring context test. | Automated integration tests and a CI workflow (GitHub Actions with Maven). |
+
+> `POST /records/seed/{memberId}` is a helper endpoint that generates sample health records for a member.
 
 ---
 
@@ -86,33 +112,29 @@ Endpoints are secured using HTTP Basic Authentication with role-based method sec
 
 ### Prerequisites
 - **Java 21 JDK**
-- **Maven** (or use the included `./mvnw` wrapper)
-- **MySQL 8+** (or Docker Desktop)
+- **Maven** (or the included `./mvnw` wrapper)
+- **MySQL 8+** or **Docker Desktop**
 
 ---
 
 ### Option 1: Run with Docker (Recommended)
 
-Run both the MySQL database and the Spring Boot application in isolated containers with a single command:
-
 ```bash
 cd medtrack
 docker compose up --build
 ```
-
-The application will be available at:
-👉 **`http://localhost:9090`**
+The application is available at **`http://localhost:9090`**. The MySQL container is published on host port `3308`.
 
 ---
 
 ### Option 2: Run Locally with Maven
 
-1. **Create the MySQL Database:**
+1. **Create the database:**
    ```sql
    CREATE DATABASE medtrack;
    ```
 
-2. **Set your database credentials and start the application:**
+2. **Set your credentials and start the application:**
 
    **Windows (PowerShell):**
    ```powershell
@@ -130,30 +152,29 @@ The application will be available at:
 
 The application starts on port **`9090`**.
 
+### Configuration
+
+| Environment variable | Default |
+|---|---|
+| `SPRING_DATASOURCE_URL` | `jdbc:mysql://localhost:3306/medtrack?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC` |
+| `SPRING_DATASOURCE_USERNAME` | `root` |
+| `SPRING_DATASOURCE_PASSWORD` | *(empty)* |
+
 ---
 
 ## 🧪 Testing the API
 
-Once running, you can test the application using your browser or terminal:
-
-### 1. Actuator Health Check (Public)
+### 1. Health check (Public)
 ```bash
 curl http://localhost:9090/actuator/health
 ```
-```json
-{
-  "status": "UP",
-  "components": {
-    "db": { "status": "UP", "details": { "database": "MySQL" } },
-    "diskSpace": { "status": "UP" }
-  }
-}
-```
 
-### 2. Fetch Health Records (Authenticated)
+### 2. Fetch health records (Authenticated)
 ```bash
 curl -u user:password http://localhost:9090/records
 ```
+
+**Example response:**
 ```json
 [
   {
@@ -167,11 +188,13 @@ curl -u user:password http://localhost:9090/records
 ]
 ```
 
-### 3. Open the Dashboard in Browser
-Visit **`http://localhost:9090/dashboard/1`** and log in with `user` / `password`.
+> **Windows PowerShell note:** `curl` is an alias for `Invoke-WebRequest`. Use `curl.exe`, or `Invoke-RestMethod` with an `Authorization: Basic ...` header.
+
+### 3. Dashboard
+Open **`http://localhost:9090/dashboard/1`** in a browser and sign in with `user` / `password`.
 
 ### 4. Postman Collection
-An automated Postman collection covering all endpoints is available in:
+A collection covering all API endpoints is available at:
 📁 [`medtrack/postman/MedTrack.postman_collection.json`](medtrack/postman/MedTrack.postman_collection.json)
 
 ---
@@ -180,20 +203,22 @@ An automated Postman collection covering all endpoints is available in:
 
 ```text
 medtrack/
-├── docs/                                # Technical documentation & EER diagrams
-│   ├── dashboard-preview.png            # UI preview screenshot
+├── docs/                                # Documentation & diagrams
+│   ├── dashboard-preview.png            # Dashboard screenshot
 │   ├── medtrack-eer-diagram.png         # Database EER diagram
-│   ├── RELATIONSHIPS.md                 # Owning/Inverse side JPA documentation
-│   └── SECURITY_ENDPOINTS.md            # Detailed RBAC matrix
-├── postman/                             # API testing collections
-│   └── MedTrack.postman_collection.json # Ready-to-import Postman collection
+│   ├── RELATIONSHIPS.md                 # Owning/inverse side of each JPA relationship
+│   └── SECURITY_ENDPOINTS.md            # Endpoint and role access matrix
+├── postman/
+│   └── MedTrack.postman_collection.json # API testing collection
+├── Dockerfile                           # Multi-stage build
+├── docker-compose.yml                   # Application + MySQL 8.4
 └── src/main/java/tr/edu/gumushane/medtrack/
-    ├── config/                          # Security, JPA, & Data Initializer config
-    ├── controller/                      # REST & MVC controllers (Thymeleaf)
-    ├── entity/                          # JPA domain entities (Member, Record, Doctor, etc.)
-    ├── exception/                       # Global exception handling & error responses
-    ├── repository/                      # EntityManager-based DAO implementations
-    └── service/                         # Business logic layer
+    ├── config/                          # Security, JPA & data initializer config
+    ├── controller/                      # REST and MVC (Thymeleaf) controllers
+    ├── entity/                          # JPA entities
+    ├── exception/                       # Global exception handling
+    ├── repository/                      # EntityManager-based repositories
+    └── service/                         # Business logic
 ```
 
 ---
@@ -205,6 +230,6 @@ medtrack/
 
 ---
 
-## 📜 License & Acknowledgments
+## 🎓 Background
 
-This project was developed as an advanced software architecture and database design coursework project at **Gümüşhane University**. It demonstrates scalable backend engineering, clean RESTful patterns, database normalization, and Spring Security best practices.
+MedTrack was developed at **Gümüşhane University** as part of a software architecture and database design course, with a focus on JPA relationship mapping, layered REST design, and role-based security with Spring Security.
